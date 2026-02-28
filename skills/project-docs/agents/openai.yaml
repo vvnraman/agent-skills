@@ -1,0 +1,4 @@
+interface:
+  display_name: "Documentation Writing"
+  short_description: "Write clear, usable technical and product documentation."
+  default_prompt: "Use $project-docs to draft or improve documentation that is clear, accurate, and easy to act on."
