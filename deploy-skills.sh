@@ -3,10 +3,10 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_DIR="${SCRIPT_DIR}/skills"
-TARGET_DIR="${HOME}/.config/ai-skills"
+TARGET_DIR="${AGENT_SKILLS_DIR:-${HOME}/.config/ai-skills}"
 
 usage() {
-  echo "Usage: $0 [-n|--dry-run]"
+  echo "Usage: $0 [--no-dry-run] [-s|--skill <skill-name>]"
 }
 
 has_rsync() {
@@ -72,6 +72,7 @@ deploy_skills() {
   local source_dir="$1"
   local target_dir="$2"
   local dry_run="$3"
+  local selected_skill="${4:-}"
   local skill_dir skill_name dest use_rsync
   local -a skill_dirs=()
 
@@ -80,15 +81,28 @@ deploy_skills() {
     use_rsync=true
   fi
 
-  shopt -s nullglob
-  skill_dirs=("${source_dir}"/*/)
+  if [[ -n "${selected_skill}" ]]; then
+    skill_dir="${source_dir}/${selected_skill}/"
+    if [[ ! -d "${skill_dir}" ]]; then
+      echo "Error: skill not found: ${selected_skill}" >&2
+      return 1
+    fi
+    skill_dirs=("${skill_dir}")
+  else
+    shopt -s nullglob
+    skill_dirs=("${source_dir}"/*/)
+  fi
 
   if [[ ${#skill_dirs[@]} -eq 0 ]]; then
     echo "No skill directories found in ${source_dir}"
     return 0
   fi
 
-  echo "Syncing managed skills from ${source_dir}"
+  if [[ -n "${selected_skill}" ]]; then
+    echo "Syncing selected skill '${selected_skill}' from ${source_dir}"
+  else
+    echo "Syncing managed skills from ${source_dir}"
+  fi
   echo "Unmanaged skills in ${target_dir} will be left untouched."
 
   for skill_dir in "${skill_dirs[@]}"; do
@@ -106,12 +120,31 @@ deploy_skills() {
 }
 
 main() {
-  local dry_run=false
+  local dry_run=true
+  local selected_skill=""
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      -n|--dry-run)
-        dry_run=true
+      --no-dry-run)
+        dry_run=false
+        shift
+        ;;
+      -s|--skill)
+        if [[ $# -lt 2 ]]; then
+          echo "Error: --skill requires a value" >&2
+          usage >&2
+          exit 1
+        fi
+        selected_skill="$2"
+        shift 2
+        ;;
+      --skill=*)
+        selected_skill="${1#*=}"
+        if [[ -z "${selected_skill}" ]]; then
+          echo "Error: --skill requires a non-empty value" >&2
+          usage >&2
+          exit 1
+        fi
         shift
         ;;
       -h|--help)
@@ -135,7 +168,7 @@ main() {
     mkdir -p "${TARGET_DIR}"
   fi
 
-  deploy_skills "${SOURCE_DIR}" "${TARGET_DIR}" "${dry_run}"
+  deploy_skills "${SOURCE_DIR}" "${TARGET_DIR}" "${dry_run}" "${selected_skill}"
 
   if [[ "${dry_run}" == true ]]; then
     echo "Dry run complete: no files were changed."

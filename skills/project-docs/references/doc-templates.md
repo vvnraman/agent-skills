@@ -54,6 +54,23 @@ Create one index page per component with these sections in order:
 
 List links to available pages under each section. Use relative links that work in your doc tooling.
 
+`Reference` must always include a `Project` subsection with:
+
+1. `Vision` document:
+   - Describe what the project is, why it exists, and desired direction of evolution.
+2. `Changelog` documents:
+   - Maintain short, dated change notes for each meaningful evolution.
+   - Treat each entry like a concise commit message.
+   - Link each entry to deeper docs (how-to/reference/explanation) when details are elsewhere.
+3. `Plan` document:
+   - Track upcoming features, prioritized work, and known issues.
+
+Suggested reference links in the index:
+
+- `Reference > Project > Vision`
+- `Reference > Project > Changelog Index`
+- `Reference > Project > Plan`
+
 ## Tutorial Structure
 
 Purpose: teach by leading a learner through a concrete path.
@@ -99,6 +116,12 @@ Recommended sections:
 
 1. `Examples`
 2. `Related Docs`
+
+Project-specific reference requirement (always required per component doc set):
+
+1. Include `Project/Vision` document.
+2. Include `Project/Changelog` set (dated, short entries).
+3. Include `Project/Plan` document.
 
 ## Explanation Structure
 

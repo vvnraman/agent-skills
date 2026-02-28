@@ -15,9 +15,10 @@ Optimize for maintainability over time: keep docs accurate as components evolve 
 1. Classify the request into a primary type: tutorial, how-to guide, reference, or explanation.
 2. Capture audience, goal, and scope for that type.
 3. Use the matching template from [doc-templates.md](references/doc-templates.md).
-4. Draft only content that fits the selected type's purpose.
-5. Add cross-links to related pages where they materially help the reader.
-6. Validate with [review-checklist.md](references/review-checklist.md) and revise.
+4. Ensure the component doc set includes mandatory `Reference > Project` docs (`Vision`, `Changelog`, `Plan`) and update them when relevant.
+5. Draft only content that fits the selected type's purpose.
+6. Add cross-links to related pages where they materially help the reader.
+7. Validate with [review-checklist.md](references/review-checklist.md) and revise.
 
 ## Type Selection Rules
 
@@ -62,6 +63,10 @@ Use constraints as defaults, not absolute bans. Prefer reader usefulness over st
 - Prefer small, frequent doc updates aligned with code changes.
 - Include version or date context for behavior that may change.
 - Mark deprecated behavior clearly and link replacements.
+- Keep `Reference > Project` current:
+  - `Vision` reflects current direction and intended evolution.
+  - `Changelog` receives short dated entries for project changes, with links to detailed docs.
+  - `Plan` tracks upcoming features and known issues.
 - Keep cross-links current between relevant related pages.
 - Flag stale or uncertain content instead of guessing.
 
