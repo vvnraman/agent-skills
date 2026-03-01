@@ -49,19 +49,25 @@ Create one index page per component with these sections in order:
 
 1. `Tutorials`
 2. `How-to guides`
-3. `Reference`
-4. `Explanation`
+3. `Explanation`
+4. `Reference`
 
 List links to available pages under each section. Use relative links that work in your doc tooling.
 
 `Reference` must always include a `Project` subsection with:
 
-1. `Vision` document:
+1. `Vision` sub-section under `Project`:
    - Describe what the project is, why it exists, and desired direction of evolution.
 2. `Changelog` documents:
    - Maintain short, dated change notes for each meaningful evolution.
+   - Use `YYYY-MM-MMM-3-to-5-word-title` for the name of the dated notes, where `YYYY` is 4 letter
+     year, `MM` is 2 digit month number and `MMM` is 3 letter month name.
    - Treat each entry like a concise commit message.
-   - Link each entry to deeper docs (how-to/reference/explanation) when details are elsewhere.
+   - Include sections with a format `YYYY-MM-DD - day-of-the-week` for the section header which
+     first describes the summary of the change for that day, followed by a brief description of the
+     changes.
+   - Link each entry to deeper docs (tutorial/how-to/explanation/reference) when details are
+     elsewhere.
 3. `Plan` document:
    - Track upcoming features, prioritized work, and known issues.
 
