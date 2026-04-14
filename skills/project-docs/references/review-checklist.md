@@ -1,75 +1,86 @@
-# Documentation Review Checklist (Divio + Maintenance)
+# Sphinx Documentation Review Checklist
 
-Use this checklist to evaluate drafts for long-term maintained software components.
+Use this checklist to review Divio-style Sphinx docs intended for long-term maintenance.
 
-## 1. Type Classification Gate (Mandatory)
+## 1. Divio type gate
 
-- Confirm the page has a clear primary type: tutorial, how-to, reference, or explanation.
-- Confirm the title and opening paragraph match the primary type's purpose.
-- If mixed types are present, confirm there is a strong reader-facing reason and clear dominance of one type.
+- Confirm the page has a clear primary type: tutorial, how-to, explanation, or reference.
+- Confirm the title and opening paragraph match that type.
+- If mixed types appear, confirm there is a strong reader-facing reason and one clearly dominant type.
 
-## 2. Type Purity Checks
+## 2. Sphinx and repo fit
+
+- Confirm the page format matches the repository's Sphinx setup.
+- Confirm the page lives under the correct `docs/` area.
+- Confirm links and toctree placement are coherent.
+- Confirm generated output under `docs/_build/` was not hand-edited.
+- Confirm generated evidence belongs under `docs/generated/` when the repo uses that pattern.
+
+## 3. Current behavior vs history
+
+- Confirm tutorial, how-to, explanation, and reference pages describe current behavior only.
+- Confirm past tense and historical notes live in changelog pages.
+- When behavior changed, confirm the page links to the relevant changelog entry instead of narrating old behavior inline.
+
+## 4. Type-specific checks
 
 Tutorial:
-- Confirm step-by-step guided learning flow.
-- Confirm explicit prerequisites and verification steps.
-- Confirm no heavy reference tables or deep architecture detours.
+- Confirm there is a guided step-by-step flow.
+- Confirm prerequisites and expected outcomes are present.
+- Confirm deep reference material and branching paths are avoided.
 
 How-to:
-- Confirm one concrete problem/task is solved.
-- Confirm concise steps and fast path to completion.
-- Confirm no broad conceptual teaching beyond minimal context.
+- Confirm one concrete task is solved.
+- Confirm runnable steps or commands appear early.
+- Confirm validation is present.
+- Confirm context stays brief and task-focused.
 
 Reference:
-- Confirm factual completeness: parameters, defaults, limits, errors, versions.
-- Confirm neutral, lookup-friendly structure.
-- Confirm no long narrative or persuasive rationale sections.
+- Confirm exact facts, defaults, interfaces, limits, or file conventions are present.
+- Confirm the structure is neutral and lookup-friendly.
+- Confirm rationale and tutorial-style walkthroughs are avoided.
 
 Explanation:
-- Confirm conceptual model, rationale, and trade-offs are present.
-- Confirm alternatives or implications are discussed.
-- Confirm no full procedural walkthrough as primary content.
+- Confirm the page reads like an operational runbook for maintainers.
+- Confirm it focuses on current behavior, structure, load order, include edges, or flow.
+- Confirm the structure heading matches the subject: `Directory layout`, `Overall structure`, or `Logical flow`.
+- Confirm generic design-rationale sections are absent unless explicitly requested.
+- Confirm relevant changelog links are present when useful.
 
-## 3. Technical Accuracy
+## 5. Technical accuracy
 
-- Verify commands, file paths, and config keys against current source systems.
-- Verify examples match actual behavior for the documented version.
+- Verify commands, file paths, config keys, and code references against the current source of truth.
+- Verify examples match current behavior.
 - Mark uncertain or unverified statements clearly.
 
-## 4. Long-term Maintainability
+## 6. Evidence quality
 
-- Confirm version/date context is present where behavior may change.
-- Confirm deprecations and replacements are clearly labeled.
-- Confirm ownership or update trigger is clear for volatile sections.
-- Confirm stale information is removed or flagged.
+- Confirm `literalinclude` blocks use actual project files.
+- Confirm each such block includes `:lineno-match:`.
+- Confirm `:emphasize-lines:` highlights only the relevant lines.
+- Confirm `:caption:` uses basename only.
+- Confirm snippet ranges are tight and readable.
+- Confirm generated layout or output snapshots follow repo conventions.
 
-## 5. Cross-link Coverage
+## 7. Project docs and changelog
 
-- Confirm each page links to relevant related pages where useful.
-- Confirm reference links point to canonical factual sources.
-- Confirm no orphan pages (pages with no inbound or outbound related links).
+- Confirm project-level maintenance docs stay under `docs/reference/project/` when that structure exists.
+- Confirm `index.rst`, `changelog.rst`, and `plan.rst` are updated when the change requires it.
+- Confirm changelog filenames and visible labels follow the required date format.
+- Confirm each dated changelog page uses the required title, first subsection, single plain sentence, and `Change summary` heading.
+- Confirm changelog links to deeper docs are current.
 
-## 6. Audience and Scope Control
-
-- Confirm intended audience is clear and consistent with depth.
-- Confirm prerequisites are realistic and not contradictory.
-- Confirm non-goals are clear when scope is narrow.
-
-## 7. Clarity and Execution Quality
+## 8. Clarity and safety
 
 - Use active voice and concrete verbs.
-- Prefer short paragraphs and descriptive headings.
-- Ensure examples are copy-paste-ready where applicable.
-- Include expected outcomes so readers can self-validate.
-
-## 8. Safety and Operational Risk
-
+- Prefer short paragraphs and direct headings.
+- Confirm operational guardrails are explicit where needed.
 - Mark destructive or irreversible actions clearly.
-- Add production-impact warnings where relevant.
-- Provide rollback/recovery or escalation guidance for operational tasks.
+- Avoid broad claims that cannot be verified from the project.
 
-## 9. Final Readiness Gate
+## 9. Final readiness gate
 
-- Confirm a reader can identify document type and purpose in the first screen.
-- Confirm the page strongly fulfills its primary Divio purpose and keeps secondary content minimal.
+- Confirm a reader can identify the page type and purpose from the first screen.
+- Confirm the page strongly fulfills its Divio role.
 - Confirm links, examples, and commands are internally consistent and actionable.
+- Confirm the verification or rebuild step is included when needed.

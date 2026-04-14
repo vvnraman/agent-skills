@@ -1,18 +1,19 @@
-# Divio Documentation Templates
+# Sphinx Documentation Templates
 
-Use the four-type system consistently:
+Use Divio as the page-type model:
 
 - Tutorials: learning-oriented, guided practice
-- How-to guides: problem-oriented, task completion
-- Reference: information-oriented, factual lookup
-- Explanation: understanding-oriented, concepts and rationale
+- How-to guides: task-oriented, fast path to completion
+- Explanation: understanding-oriented, but written here as an operational maintainer runbook
+- Reference: information-oriented, precise lookup
 
-Prefer one primary type per page. If mixed content is needed, keep the secondary type brief and clearly subordinate.
+Prefer one primary type per page. Split mixed pages unless reader workflow clearly benefits from keeping them together.
 
-## Markup Format Guidance (Markdown + reStructuredText)
+## Markup format guidance
 
-The templates below define content structure, not markup syntax.  
-Use the same section names and ordering in either Markdown or reStructuredText.
+For Sphinx projects, prefer reStructuredText and Sphinx directives unless the repository already uses another agreed format.
+
+The section names and ordering below matter more than exact markup syntax, but `.rst` is the default.
 
 Common syntax equivalents:
 
@@ -43,41 +44,25 @@ Common syntax equivalents:
   - Markdown: fenced triple backticks
   - reStructuredText: `.. code-block:: <lang>`
 
-## Component Documentation Set (Index)
+## Project documentation set
 
-Create one index page per component with these sections in order:
+For repositories with a project docs set, keep navigation coherent across:
 
-1. `Tutorials`
-2. `How-to guides`
-3. `Explanation`
-4. `Reference`
+1. `docs/tutorials/`
+2. `docs/how-to/`
+3. `docs/explanation/`
+4. `docs/reference/`
 
-List links to available pages under each section. Use relative links that work in your doc tooling.
+Under `docs/reference/project/`, prefer:
 
-`Reference` must always include a `Project` subsection with:
+1. `index.rst`
+2. `changelog.rst`
+3. `plan.rst`
+4. dated changelog pages in the repo's chosen changelog directory
 
-1. `Vision` sub-section under `Project`:
-   - Describe what the project is, why it exists, and desired direction of evolution.
-2. `Changelog` documents:
-   - Maintain short, dated change notes for each meaningful evolution.
-   - Use `YYYY-MM-MMM-3-to-5-word-title` for the name of the dated notes, where `YYYY` is 4 letter
-     year, `MM` is 2 digit month number and `MMM` is 3 letter month name.
-   - Treat each entry like a concise commit message.
-   - Include sections with a format `YYYY-MM-DD - day-of-the-week` for the section header which
-     first describes the summary of the change for that day, followed by a brief description of the
-     changes.
-   - Link each entry to deeper docs (tutorial/how-to/explanation/reference) when details are
-     elsewhere.
-3. `Plan` document:
-   - Track upcoming features, prioritized work, and known issues.
+Use relative links that work in Sphinx.
 
-Suggested reference links in the index:
-
-- `Reference > Project > Vision`
-- `Reference > Project > Changelog Index`
-- `Reference > Project > Plan`
-
-## Tutorial Structure
+## Tutorial structure
 
 Purpose: teach by leading a learner through a concrete path.
 
@@ -85,16 +70,16 @@ Minimum required sections:
 
 1. `What You Will Build`
 2. `Prerequisites`
-3. Ordered `Step` sections (`Step 1`, `Step 2`, ...)
+3. Ordered step sections (`Step 1`, `Step 2`, ...)
 4. `Expected Outcome`
 
 Recommended sections:
 
 1. `Next Steps`
 
-## How-to Guide Structure
+## How-to guide structure
 
-Purpose: solve a specific problem for someone already familiar with the system.
+Purpose: solve one concrete problem for a reader who already knows the system at a basic level.
 
 Minimum required sections:
 
@@ -108,54 +93,75 @@ Recommended sections:
 2. `Troubleshooting`
 3. `Related Docs`
 
-## Reference Structure
+## Reference structure
 
-Purpose: provide precise facts for lookup.
+Purpose: provide exact facts for lookup.
 
 Minimum required sections:
 
 1. `Summary`
-2. `Specification` (facts, defaults, limits, constraints)
-3. `Interfaces` (if applicable)
+2. `Specification`
+3. `Interfaces` or `Examples`, whichever best matches the subject
 
 Recommended sections:
 
-1. `Examples`
-2. `Related Docs`
+1. `Related Docs`
+2. Generated snapshots or `literalinclude` evidence when exact output matters
 
-Project-specific reference requirement (always required per component doc set):
+Project-specific reference pages should stay under `docs/reference/project/`.
 
-1. Include `Project/Vision` document.
-2. Include `Project/Changelog` set (dated, short entries).
-3. Include `Project/Plan` document.
+## Explanation structure
 
-## Explanation Structure
+Purpose: help a maintainer understand current behavior well enough to trace, debug, or modify it.
 
-Purpose: build deeper understanding of why the system works this way.
+Use the subject-appropriate pattern instead of one rigid outline.
 
-Minimum required sections:
+Required starting pattern:
 
-1. `Context`
-2. `How It Works`
-3. `Why It Is Designed This Way`
-4. `Future Evolution`
+1. One concise intro stating intent and scope.
+2. One subject-appropriate structure section:
+   - `Directory layout` for file and folder topics
+   - `Overall structure` for code or module organization
+   - `Logical flow` for behavior or control flow
+3. Short bullets that describe the important pieces or top-level flow.
+4. Focused flow sections only when they add value, such as:
+   - `Load order`
+   - entry points
+   - include or source order
+   - top-down call flow
+5. `Relevant changelogs`
 
-Recommended sections:
+Explanation page rules:
 
-1. `Alternatives Considered`
-2. `Implications`
-3. `Related Docs`
+- Describe current behavior in present tense.
+- Prefer operational verbs.
+- Keep sections compact and scannable.
+- Use basenames instead of repeated full paths when a nearby tree already provides context.
+- Use `literalinclude` or generated snapshots when showing evidence.
+- Do not add generic design-rationale sections unless explicitly requested.
 
-For `Future Evolution`, cover:
+## Changelog page structure
 
-- Likely change vectors
-- Signals that indicate current design should be revisited
-- Safe migration approach for expected changes
+Purpose: record historical changes briefly and link to deeper docs.
 
-## Cross-link and Duplication Rules
+Minimum required structure:
 
-- Duplicate content only when needed for usability in each type.
-- Keep duplicated content short and adapted to the type's purpose.
-- Link to the canonical reference for exact values, signatures, and limits.
-- Add cross-links where they improve task completion or understanding.
-- Update links whenever pages are renamed or moved.
+1. Page title: `YYYY-MM mmm - <summary>`
+2. First subsection: `YYYY-MM-DD - Day`
+3. Exactly one plain sentence immediately below that subsection
+4. `Change summary`
+5. Links to deeper docs where relevant
+
+Rules:
+
+- Use dated filename format: `YYYY-MM-mmm-<slug>.rst`
+- Keep entries concise
+- Use past tense here; keep current-behavior docs in present tense
+
+## Cross-link and duplication rules
+
+- Duplicate content only when it materially improves reader workflow.
+- Keep duplicated content short and adapted to the page type.
+- Link to reference pages for exact facts.
+- Link from changelog pages to deeper docs, and from explanation docs back to relevant changelog entries when useful.
+- Update links whenever pages move or are renamed.

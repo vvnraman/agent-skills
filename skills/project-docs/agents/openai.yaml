@@ -1,4 +1,4 @@
 interface:
-  display_name: "Documentation Writing"
-  short_description: "Write clear, usable technical and product documentation."
-  default_prompt: "Use $project-docs to draft or improve documentation that is clear, accurate, and easy to act on."
+  display_name: "Sphinx Project Docs"
+  short_description: "Write Divio-style Sphinx documentation in reStructuredText."
+  default_prompt: "Use $project-docs to draft, rewrite, or review Sphinx documentation in Divio style, following project-specific reStructuredText, changelog, and evidence conventions."
