@@ -1,13 +1,13 @@
 ---
-name: project-docs
-description: Draft, rewrite, and review Sphinx project documentation in reStructuredText using Divio documentation types and project-specific maintenance rules.
+name: project-docs-md
+description: Draft, rewrite, and review long-term project documentation in Markdown using Divio documentation types, docs/project maintenance pages, and Obsidian-compatible links.
 ---
 
-# Sphinx Documentation Writing
+# Markdown Project Documentation
 
 ## Overview
 
-Use this skill when asked to write, rewrite, or review long-term documentation for a Sphinx docs project.
+Use this skill when asked to write, rewrite, or review long-term project documentation in Markdown.
 
 Classify each page using the Divio model:
 - tutorial
@@ -15,13 +15,14 @@ Classify each page using the Divio model:
 - explanation
 - reference
 
-Then write it using the repository's Sphinx, reStructuredText, and maintenance conventions.
+Then write it using the repository's Markdown, project maintenance, and cross-linking conventions.
 
 Optimize for:
 - one clear primary doc type per page
 - maintainability as the project evolves
 - concrete, verifiable statements over broad narrative
 - coherent `docs/` structure and useful cross-links
+- portability across Git viewers, editors, and Obsidian vault syncs
 
 ## Core workflow
 
@@ -29,10 +30,11 @@ Optimize for:
 2. Capture audience, goal, scope, and repo-specific doc constraints.
 3. Confirm the source of truth from code, config, commands, generated snapshots, changelog, or existing docs.
 4. Use the matching pattern from [doc-templates.md](references/doc-templates.md).
-5. Apply the Sphinx and project-structure rules in this skill.
-6. Update `docs/reference/project/` pages when the change affects project-level docs.
-7. Validate with [review-checklist.md](references/review-checklist.md).
-8. Rebuild docs, or provide the exact verification command, when the repo has a Sphinx build configured.
+5. Apply the Markdown and project-structure rules in this skill.
+6. Update `docs/project/` pages when the change affects project-level docs.
+7. Update `docs/reference/meta.md` when the change affects shared documentation conventions.
+8. Validate with [review-checklist.md](references/review-checklist.md).
+9. Run the smallest useful verification step, or provide the exact verification command when a docs build exists.
 
 ## Type selection rules
 
@@ -50,35 +52,37 @@ Before drafting, gather:
 - intended audience
 - requested doc type, or best-fit type if unspecified
 - relevant files, commands, config, code paths, or generated artifacts
-- doc tooling expectations (`Sphinx`, `.rst`, MyST if already in use)
+- doc tooling expectations (`Markdown`, static site tooling, or editor-specific constraints if any)
 - repo structure expectations under `docs/`
 - version, commit, or date context when behavior is volatile
 
 If information is missing, state assumptions explicitly instead of guessing.
 
-## Sphinx and project-structure rules
+## Markdown and project-structure rules
 
-- Prefer `.rst` for Sphinx projects unless the repo already uses MyST or another agreed format.
+- Prefer `.md` for source docs.
 - Keep source docs under `docs/`.
 - Keep the doc set coherent across tutorials, how-to guides, explanation, and reference.
-- Do not hand-edit generated output under `docs/_build/`.
+- Keep project-level maintenance pages under `docs/project/`.
+- Maintain `docs/project/index.md`, `changelog.md`, and `plan.md` when relevant to the requested change.
+- Maintain `docs/reference/meta.md` when shared documentation rules change.
 - Prefer generated snapshots under `docs/generated/` when the repo uses them for command output or layout evidence.
-- Use relative links that work with Sphinx and reStructuredText.
-- Prefer project-level maintenance pages under `docs/reference/project/` when that structure exists.
-- Maintain `docs/reference/project/index.rst`, `changelog.rst`, and `plan.rst` when relevant to the requested change.
+- Use relative Markdown links with explicit `.md` targets so links work in Git viewers, plain editors, and Obsidian.
+- Avoid Obsidian-only wikilinks unless the repository has explicitly standardized on them.
+- Do not hand-edit generated output.
 
 ## Project-level docs rules
 
-When the repository keeps project docs under `docs/reference/project/`:
-- keep `index.rst` as the overview page
-- keep `changelog.rst` as the entry point for dated changes
-- keep `plan.rst` maintained when the task affects planned work or known issues
+When the repository keeps project docs under `docs/project/`:
+- keep `index.md` as the overview page
+- keep `changelog.md` as the entry point for dated changes
+- keep `plan.md` maintained when the task affects planned work or known issues
 - prefer linking from changelog entries to deeper explanation, how-to, tutorial, or reference pages instead of putting long prose in the changelog itself
 
 ## Changelog conventions
 
-- Use dated filenames: `YYYY-MM-mmm-<slug>.rst`
-- In `changelog.rst`, visible labels use month-key style: `YYYY-MM-mmm - ...`
+- Use dated filenames: `YYYY-MM-mmm-<slug>.md`
+- In `changelog.md`, visible labels use month-key style: `YYYY-MM-mmm - ...`
 - Keep newest entries first
 - In each dated changelog page:
   - title stays `YYYY-MM mmm - <summary>`
@@ -98,6 +102,12 @@ When the repository keeps project docs under `docs/reference/project/`:
 - Avoid unverifiable claims, generic architecture prose, and repeated path explanations.
 - Include operational guardrails explicitly when actions are destructive, stateful, or branch/worktree-sensitive.
 - Keep duplicated content minimal. Cross-link to the canonical page instead.
+
+## Visual rules
+
+- Use small ASCII diagrams when a trivial relationship, path, or flow is easier to scan visually than in prose.
+- Use fenced `mermaid` diagrams when the explanation benefits from a richer visual and the diagram still needs to render in Markdown tooling such as Obsidian.
+- Keep diagrams tight and task-specific instead of turning them into large architecture posters.
 
 ## Type-specific writing rules
 
@@ -119,7 +129,7 @@ When the repository keeps project docs under `docs/reference/project/`:
 
 - Present exact facts, defaults, interfaces, limits, file locations, or command behavior.
 - Keep the structure neutral and lookup-friendly.
-- Prefer generated snapshots and `literalinclude` evidence when exact output matters.
+- Prefer generated snapshots or compact Markdown code blocks when exact output matters.
 - Avoid broad rationale or tutorial-style walkthroughs.
 
 ### Explanation
@@ -135,27 +145,23 @@ When the repository keeps project docs under `docs/reference/project/`:
 - Use `Relevant changelogs` to point to historical changes.
 - Do not add generic sections such as `Why it is designed this way` or `Future evolution` unless the user explicitly asks for design analysis rather than operational explanation.
 
-## Evidence and `literalinclude` rules
+## Evidence rules
 
-When documenting source, include, or resolve edges from project files:
-- use `literalinclude` from actual files
-- include `:lineno-match:`
-- include `:emphasize-lines:` for the lines that matter
-- include `:caption:` with basename only
+When documenting source, config, or command behavior:
+- use tight Markdown code fences from actual files or command output
+- identify the source file or command near the snippet
 - keep snippet ranges tight
-- ensure emphasized lines match the visible range
 - prefer evidence that lets a maintainer verify the claim directly
+- prefer generated snapshots under `docs/generated/` when exact output is reused across pages
 
 ## Layout snapshot rules
 
 When a repo uses generated layout snapshots:
 - keep layout-only sections free of explanatory prose
-- wrap layout includes in a `sphinx-design` dropdown
-- use dropdown label `Show layout`
 - use generated files from `docs/generated/`
-- render generated layout includes with `:language: sh`
-- for generated layout includes, use `:caption:` with the relative config directory path
-- if layout snapshots are generated in `docs/conf.py`, prefer that mechanism over hand-maintained tree blocks
+- render generated layout includes in fenced code blocks with an appropriate language tag such as `sh`
+- identify the relative directory or file path above the snapshot when that context helps
+- if layout snapshots are generated by a script or docs build, prefer that mechanism over hand-maintained tree blocks
 
 ## Rewrite strategy
 
@@ -171,7 +177,7 @@ When rewriting:
 When reviewing:
 1. check Divio type fit first
 2. check technical correctness second
-3. check Sphinx and project-structure compliance third
+3. check Markdown and project-structure compliance third
 4. report issues by severity with concrete edits
 
 ## Output format

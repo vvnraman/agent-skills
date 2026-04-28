@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Docs (Markdown)"
+  short_description: "Write Divio-style project documentation in Markdown."
+  default_prompt: "Use $project-docs-md to draft, rewrite, or review Markdown documentation in Divio style, following project maintenance, changelog, diagram, and Obsidian-compatible link conventions."

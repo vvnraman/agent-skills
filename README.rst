@@ -24,7 +24,8 @@ Examples
 .. code-block:: bash
 
    ./deploy-skills.sh
-   ./deploy-skills.sh --skill project-docs
+   ./deploy-skills.sh --skill project-docs-rst
+   ./deploy-skills.sh --skill project-docs-md
    ./deploy-skills.sh --no-dry-run
-   ./deploy-skills.sh --no-dry-run --skill project-docs
-   AGENT_SKILLS_DIR=/tmp/ai-skills ./deploy-skills.sh --skill project-docs
+   ./deploy-skills.sh --no-dry-run --skill project-docs-rst
+   AGENT_SKILLS_DIR=/tmp/ai-skills ./deploy-skills.sh --skill project-docs-md

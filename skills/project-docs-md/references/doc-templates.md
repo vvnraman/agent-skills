@@ -1,4 +1,4 @@
-# Sphinx Documentation Templates
+# Markdown Documentation Templates
 
 Use Divio as the page-type model:
 
@@ -11,9 +11,9 @@ Prefer one primary type per page. Split mixed pages unless reader workflow clear
 
 ## Markup format guidance
 
-For Sphinx projects, prefer reStructuredText and Sphinx directives unless the repository already uses another agreed format.
+For Markdown docs projects, prefer plain Markdown that works in Git viewers and Obsidian unless the repository already uses another agreed format.
 
-The section names and ordering below matter more than exact markup syntax, but `.rst` is the default.
+The section names and ordering below matter more than exact markup syntax, but `.md` is the default.
 
 Common syntax equivalents:
 
@@ -38,11 +38,10 @@ Common syntax equivalents:
   - Markdown: `1. item`
   - reStructuredText: `#. item` (or `1.`)
 - Link:
-  - Markdown: `[Text](path/to/doc)`
-  - reStructuredText: `` `Text <path/to/doc>`_ ``
+  - Markdown: `[Text](relative/path/to/doc.md)`
+  - Prefer explicit `.md` targets for portability across Git viewers and Obsidian
 - Code block:
   - Markdown: fenced triple backticks
-  - reStructuredText: `.. code-block:: <lang>`
 
 ## Project documentation set
 
@@ -52,15 +51,16 @@ For repositories with a project docs set, keep navigation coherent across:
 2. `docs/how-to/`
 3. `docs/explanation/`
 4. `docs/reference/`
+5. `docs/project/`
 
-Under `docs/reference/project/`, prefer:
+Under `docs/project/`, prefer:
 
-1. `index.rst`
-2. `changelog.rst`
-3. `plan.rst`
+1. `index.md`
+2. `changelog.md`
+3. `plan.md`
 4. dated changelog pages in the repo's chosen changelog directory
 
-Use relative links that work in Sphinx.
+Use relative Markdown links with explicit `.md` targets.
 
 ## Tutorial structure
 
@@ -106,9 +106,9 @@ Minimum required sections:
 Recommended sections:
 
 1. `Related Docs`
-2. Generated snapshots or `literalinclude` evidence when exact output matters
+2. Generated snapshots or code block evidence when exact output matters
 
-Project-specific reference pages should stay under `docs/reference/project/`.
+Project-specific maintenance pages should stay under `docs/project/`.
 
 ## Explanation structure
 
@@ -137,7 +137,7 @@ Explanation page rules:
 - Prefer operational verbs.
 - Keep sections compact and scannable.
 - Use basenames instead of repeated full paths when a nearby tree already provides context.
-- Use `literalinclude` or generated snapshots when showing evidence.
+- Use code fences or generated snapshots when showing evidence.
 - Do not add generic design-rationale sections unless explicitly requested.
 
 ## Changelog page structure
@@ -154,9 +154,15 @@ Minimum required structure:
 
 Rules:
 
-- Use dated filename format: `YYYY-MM-mmm-<slug>.rst`
+- Use dated filename format: `YYYY-MM-mmm-<slug>.md`
 - Keep entries concise
 - Use past tense here; keep current-behavior docs in present tense
+
+## Visual guidance
+
+- Use small ASCII diagrams for trivial structures or flows.
+- Use fenced `mermaid` blocks when the explanation benefits from a richer visual and the Markdown tooling is expected to support it.
+- Keep visuals small and directly tied to the page purpose.
 
 ## Cross-link and duplication rules
 

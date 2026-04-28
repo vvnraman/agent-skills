@@ -1,4 +1,0 @@
-interface:
-  display_name: "Sphinx Project Docs"
-  short_description: "Write Divio-style Sphinx documentation in reStructuredText."
-  default_prompt: "Use $project-docs to draft, rewrite, or review Sphinx documentation in Divio style, following project-specific reStructuredText, changelog, and evidence conventions."
